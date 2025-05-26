@@ -1,0 +1,29 @@
+Commands to test out on Inspect + Console:
+
+1️⃣ Check if Supabase Client is Initialized
+console.log(window.supabase);
+
+supabase.auth.signUp({ email: 'test2@example.com', password: 'password2' })
+
+supabase.auth.signInWithPassword({ email: 'test2@example.com', password: 'password2' })
+
+
+2️⃣ Check Current Authentication Session
+window.supabase.auth.getSession().then(console.log);
+
+3️⃣ Sign In with Email & Password
+window.supabase.auth.signInWithPassword({
+  email: 'your-email@example.com',
+  password: 'your-password'
+}).then(console.log);
+
+4️⃣ Sign Out
+window.supabase.auth.signOut().then(console.log);
+
+5️⃣ Listen for Authentication State Changes
+window.supabase.auth.onAuthStateChange((event, session) => {
+  console.log(event, session);
+});
+
+6️⃣ Fetch Current User
+window.supabase.auth.getUser().then(console.log);
