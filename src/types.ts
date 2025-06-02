@@ -12,6 +12,13 @@ export type SkillLevel = 'beginner' | 'intermediate' | 'advanced';
 
 export type ProjectDifficulty = 'easy' | 'medium' | 'hard' | 'expert';
 
+export interface SkillSource {
+  name: string;
+  url: string;
+  description: string;
+  lastUpdated: string;
+}
+
 export interface Skill {
   id: string;
   name: string;
@@ -23,6 +30,20 @@ export interface Skill {
   color: string;
   level: SkillLevel;
   relatedSkills: string[];
+  source: SkillSource;
+  demandScore: number;
+  salaryRange: {
+    min: number;
+    max: number;
+    currency: string;
+  };
+  jobPostings: number;
+  linkedInEndorsements: number;
+  certifications: {
+    name: string;
+    provider: string;
+    url: string;
+  }[];
 }
 
 export interface Project {
@@ -37,4 +58,28 @@ export interface Project {
     title: string;
     url: string;
   }[];
+  learningPath: {
+    steps: {
+      title: string;
+      description: string;
+      resources: {
+        type: 'video' | 'article' | 'tutorial';
+        title: string;
+        url: string;
+      }[];
+    }[];
+  };
+  academicConnections: {
+    subjects: string[];
+    concepts: string[];
+  };
+}
+
+export interface UserProgress {
+  userId: string;
+  skillId: string;
+  progress: number;
+  lastUpdated: string;
+  linkedInVerified: boolean;
+  completedProjects: string[];
 }

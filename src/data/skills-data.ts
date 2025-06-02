@@ -1,6 +1,5 @@
 // src/data/skills-data.ts
 
-
 import { Skill, SkillCategory } from '@/types';
 
 // Mock data for skills
@@ -16,6 +15,27 @@ const skills: Skill[] = [
     color: '#61DAFB',
     level: 'intermediate',
     relatedSkills: ['JavaScript', 'Redux', 'TypeScript', 'Next.js'],
+    source: {
+      name: 'React Documentation',
+      url: 'https://reactjs.org',
+      description: 'Official React documentation and resources',
+      lastUpdated: '2024-01-15'
+    },
+    demandScore: 92,
+    salaryRange: {
+      min: 80000,
+      max: 150000,
+      currency: 'USD'
+    },
+    jobPostings: 15000,
+    linkedInEndorsements: 500000,
+    certifications: [
+      {
+        name: 'Meta React Developer Certificate',
+        provider: 'Meta',
+        url: 'https://www.coursera.org/professional-certificates/meta-front-end-developer'
+      }
+    ]
   },
   {
     id: '2',
@@ -28,6 +48,27 @@ const skills: Skill[] = [
     color: '#3178C6',
     level: 'intermediate',
     relatedSkills: ['JavaScript', 'React', 'Node.js', 'Angular'],
+    source: {
+      name: 'TypeScript Documentation',
+      url: 'https://www.typescriptlang.org',
+      description: 'Official TypeScript documentation and guides',
+      lastUpdated: '2024-01-10'
+    },
+    demandScore: 88,
+    salaryRange: {
+      min: 85000,
+      max: 160000,
+      currency: 'USD'
+    },
+    jobPostings: 12000,
+    linkedInEndorsements: 400000,
+    certifications: [
+      {
+        name: 'TypeScript Certification',
+        provider: 'Microsoft',
+        url: 'https://learn.microsoft.com/en-us/training/paths/build-javascript-applications-typescript/'
+      }
+    ]
   },
   {
     id: '3',
@@ -40,6 +81,27 @@ const skills: Skill[] = [
     color: '#FF7262',
     level: 'intermediate',
     relatedSkills: ['Figma', 'Adobe XD', 'Sketch', 'User Research'],
+    source: {
+      name: 'Nielsen Norman Group',
+      url: 'https://www.nngroup.com',
+      description: 'Leading UX research and consulting firm',
+      lastUpdated: '2024-01-05'
+    },
+    demandScore: 85,
+    salaryRange: {
+      min: 70000,
+      max: 140000,
+      currency: 'USD'
+    },
+    jobPostings: 8000,
+    linkedInEndorsements: 300000,
+    certifications: [
+      {
+        name: 'Google UX Design Certificate',
+        provider: 'Google',
+        url: 'https://www.coursera.org/professional-certificates/google-ux-design'
+      }
+    ]
   },
   {
     id: '4',
@@ -52,6 +114,27 @@ const skills: Skill[] = [
     color: '#3776AB',
     level: 'beginner',
     relatedSkills: ['Django', 'Flask', 'Data Science', 'Machine Learning'],
+    source: {
+      name: 'Python Documentation',
+      url: 'https://www.python.org',
+      description: 'Official Python documentation and resources',
+      lastUpdated: '2024-01-12'
+    },
+    demandScore: 94,
+    salaryRange: {
+      min: 75000,
+      max: 145000,
+      currency: 'USD'
+    },
+    jobPostings: 20000,
+    linkedInEndorsements: 600000,
+    certifications: [
+      {
+        name: 'Python Institute PCEP',
+        provider: 'Python Institute',
+        url: 'https://pythoninstitute.org/pcep'
+      }
+    ]
   },
   {
     id: '5',
@@ -64,6 +147,27 @@ const skills: Skill[] = [
     color: '#4CAF50',
     level: 'intermediate',
     relatedSkills: ['SQL', 'Python', 'R', 'Tableau', 'Excel'],
+    source: {
+      name: 'Kaggle',
+      url: 'https://www.kaggle.com',
+      description: 'Data science and machine learning community',
+      lastUpdated: '2024-01-08'
+    },
+    demandScore: 89,
+    salaryRange: {
+      min: 70000,
+      max: 130000,
+      currency: 'USD'
+    },
+    jobPostings: 10000,
+    linkedInEndorsements: 350000,
+    certifications: [
+      {
+        name: 'Google Data Analytics Certificate',
+        provider: 'Google',
+        url: 'https://www.coursera.org/professional-certificates/google-data-analytics'
+      }
+    ]
   },
   {
     id: '6',
@@ -76,6 +180,27 @@ const skills: Skill[] = [
     color: '#FF5722',
     level: 'beginner',
     relatedSkills: ['SEO', 'Social Media', 'Content Marketing', 'Analytics'],
+    source: {
+      name: 'HubSpot Academy',
+      url: 'https://academy.hubspot.com',
+      description: 'Digital marketing education platform',
+      lastUpdated: '2024-01-03'
+    },
+    demandScore: 82,
+    salaryRange: {
+      min: 55000,
+      max: 120000,
+      currency: 'USD'
+    },
+    jobPostings: 7000,
+    linkedInEndorsements: 250000,
+    certifications: [
+      {
+        name: 'Digital Marketing Certification',
+        provider: 'HubSpot Academy',
+        url: 'https://academy.hubspot.com/courses/digital-marketing'
+      }
+    ]
   },
   {
     id: '7',
@@ -88,6 +213,27 @@ const skills: Skill[] = [
     color: '#9C27B0',
     level: 'advanced',
     relatedSkills: ['Python', 'TensorFlow', 'PyTorch', 'Data Science'],
+    source: {
+      name: 'Machine Learning Mastery',
+      url: 'https://machinelearningmastery.com',
+      description: 'Comprehensive machine learning resources',
+      lastUpdated: '2024-01-14'
+    },
+    demandScore: 91,
+    salaryRange: {
+      min: 90000,
+      max: 180000,
+      currency: 'USD'
+    },
+    jobPostings: 9000,
+    linkedInEndorsements: 200000,
+    certifications: [
+      {
+        name: 'TensorFlow Developer Certificate',
+        provider: 'Google',
+        url: 'https://www.tensorflow.org/certificate'
+      }
+    ]
   },
   {
     id: '8',
@@ -100,6 +246,27 @@ const skills: Skill[] = [
     color: '#2196F3',
     level: 'intermediate',
     relatedSkills: ['Agile', 'Scrum', 'Kanban', 'Leadership'],
+    source: {
+      name: 'Project Management Institute',
+      url: 'https://www.pmi.org',
+      description: 'Global project management organization',
+      lastUpdated: '2024-01-02'
+    },
+    demandScore: 80,
+    salaryRange: {
+      min: 65000,
+      max: 140000,
+      currency: 'USD'
+    },
+    jobPostings: 6000,
+    linkedInEndorsements: 400000,
+    certifications: [
+      {
+        name: 'Project Management Professional (PMP)',
+        provider: 'PMI',
+        url: 'https://www.pmi.org/certifications/project-management-pmp'
+      }
+    ]
   },
   {
     id: '9',
@@ -112,6 +279,27 @@ const skills: Skill[] = [
     color: '#339933',
     level: 'intermediate',
     relatedSkills: ['JavaScript', 'Express.js', 'MongoDB', 'API Development'],
+    source: {
+      name: 'Node.js Documentation',
+      url: 'https://nodejs.org',
+      description: 'Official Node.js documentation and resources',
+      lastUpdated: '2024-01-11'
+    },
+    demandScore: 87,
+    salaryRange: {
+      min: 80000,
+      max: 150000,
+      currency: 'USD'
+    },
+    jobPostings: 11000,
+    linkedInEndorsements: 450000,
+    certifications: [
+      {
+        name: 'Node.js Application Developer',
+        provider: 'OpenJS Foundation',
+        url: 'https://training.linuxfoundation.org/certification/jsnad/'
+      }
+    ]
   },
   {
     id: '10',
@@ -124,6 +312,27 @@ const skills: Skill[] = [
     color: '#F24E1E',
     level: 'beginner',
     relatedSkills: ['UI Design', 'Prototyping', 'Design Systems', 'Collaboration'],
+    source: {
+      name: 'Figma Help Center',
+      url: 'https://help.figma.com',
+      description: 'Official Figma documentation and tutorials',
+      lastUpdated: '2024-01-09'
+    },
+    demandScore: 86,
+    salaryRange: {
+      min: 65000,
+      max: 130000,
+      currency: 'USD'
+    },
+    jobPostings: 5000,
+    linkedInEndorsements: 200000,
+    certifications: [
+      {
+        name: 'Figma Professional Design Certificate',
+        provider: 'Figma',
+        url: 'https://www.figma.com/resources/learn-design/'
+      }
+    ]
   },
   {
     id: '11',
@@ -136,6 +345,27 @@ const skills: Skill[] = [
     color: '#E65100',
     level: 'intermediate',
     relatedSkills: ['Database Design', 'PostgreSQL', 'MySQL', 'Data Analysis'],
+    source: {
+      name: 'W3Schools SQL',
+      url: 'https://www.w3schools.com/sql/',
+      description: 'Comprehensive SQL tutorials and references',
+      lastUpdated: '2024-01-07'
+    },
+    demandScore: 85,
+    salaryRange: {
+      min: 70000,
+      max: 140000,
+      currency: 'USD'
+    },
+    jobPostings: 13000,
+    linkedInEndorsements: 500000,
+    certifications: [
+      {
+        name: 'Oracle Database SQL Certified Associate',
+        provider: 'Oracle',
+        url: 'https://education.oracle.com/oracle-database-sql-certified-associate'
+      }
+    ]
   },
   {
     id: '12',
@@ -148,6 +378,27 @@ const skills: Skill[] = [
     color: '#0288D1',
     level: 'intermediate',
     relatedSkills: ['AWS', 'Azure', 'Google Cloud', 'DevOps'],
+    source: {
+      name: 'AWS Training',
+      url: 'https://aws.amazon.com/training/',
+      description: 'Cloud computing training and certification',
+      lastUpdated: '2024-01-13'
+    },
+    demandScore: 93,
+    salaryRange: {
+      min: 85000,
+      max: 170000,
+      currency: 'USD'
+    },
+    jobPostings: 14000,
+    linkedInEndorsements: 350000,
+    certifications: [
+      {
+        name: 'AWS Certified Solutions Architect',
+        provider: 'Amazon Web Services',
+        url: 'https://aws.amazon.com/certification/certified-solutions-architect-associate/'
+      }
+    ]
   },
 ];
 

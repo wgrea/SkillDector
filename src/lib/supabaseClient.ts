@@ -18,3 +18,6 @@ export const supabase: SupabaseClient = createClient(supabaseUrl!, supabaseKey!,
   },
 });
 window.supabase = supabase; // ✅ TypeScript should now understand this.
+
+console.log("VITE_SUPABASE_URL:", import.meta.env.VITE_SUPABASE_URL);
+console.log("VITE_SUPABASE_ANON_KEY:", import.meta.env.VITE_SUPABASE_ANON_KEY);
