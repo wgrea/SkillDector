@@ -1,10 +1,9 @@
 // src/components/skills/skill-grid.tsx
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Skill } from '@/types';
 import { SkillCard } from '@/components/skills/skill-card';
 import { EmptyState } from '@/components/ui/empty-state';
-import { AutoSizer, Grid } from 'react-virtualized';
 
 interface SkillsGridProps {
   skills: Skill[];
@@ -12,7 +11,20 @@ interface SkillsGridProps {
 
 export function SkillsGrid({ skills }: SkillsGridProps) {
   const [expandedSkillId, setExpandedSkillId] = useState<string | null>(null);
-  
+  const [columnCount, setColumnCount] = useState(1);
+
+  useEffect(() => {
+    const updateColumns = () => {
+      const width = window.innerWidth;
+      const newColumnCount = width >= 1280 ? 4 : width >= 1024 ? 3 : width >= 640 ? 2 : 1;
+      setColumnCount(newColumnCount);
+    };
+
+    updateColumns();
+    window.addEventListener('resize', updateColumns);
+    return () => window.removeEventListener('resize', updateColumns);
+  }, []);
+
   if (skills.length === 0) {
     return (
       <EmptyState 
@@ -21,47 +33,24 @@ export function SkillsGrid({ skills }: SkillsGridProps) {
       />
     );
   }
-  
-  const columnCount = window.innerWidth >= 1280 ? 4 : window.innerWidth >= 1024 ? 3 : window.innerWidth >= 640 ? 2 : 1;
-  const columnWidth = window.innerWidth >= 640 ? Math.floor((window.innerWidth - 96) / columnCount) : window.innerWidth - 32;
-  const rowCount = Math.ceil(skills.length / columnCount);
-  
-  const cellRenderer = ({ columnIndex, key, rowIndex, style }: any) => {
-    const index = rowIndex * columnCount + columnIndex;
-    if (index >= skills.length) return null;
-    
-    const skill = skills[index];
-    return (
-      <div key={key} style={style} className="p-3">
+
+  return (
+    <div className={`grid gap-4 px-6 sm:gap-6 md:gap-8 lg:gap-10`} 
+      style={{
+        display: 'grid',
+        gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`,
+      }}
+    >
+      {skills.map((skill) => (
         <SkillCard
+          key={skill.id}
           skill={skill}
           isExpanded={skill.id === expandedSkillId}
-          onToggleExpand={() => 
-            setExpandedSkillId(
-              skill.id === expandedSkillId ? null : skill.id
-            )
+          onToggleExpand={() =>
+            setExpandedSkillId(skill.id === expandedSkillId ? null : skill.id)
           }
         />
-      </div>
-    );
-  };
-  
-  return (
-    <div className="h-[calc(100vh-200px)]">
-      <AutoSizer>
-        {({ height, width }) => (
-          <Grid
-            cellRenderer={cellRenderer}
-            columnCount={columnCount}
-            columnWidth={columnWidth}
-            height={height}
-            rowCount={rowCount}
-            rowHeight={320}
-            width={width}
-            overscanRowCount={2}
-          />
-        )}
-      </AutoSizer>
+      ))}
     </div>
   );
 }
