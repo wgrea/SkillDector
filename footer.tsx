@@ -88,7 +88,7 @@ export function Footer() {
       Learn About Our Data
     </a>
       
-      <div className="container mt-8 pt-8 border-t">
+      <div className="container mt-12 pt-12 border-t">
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-sm text-muted-foreground">
             © {currentYear} SkillsHub. All rights reserved.
