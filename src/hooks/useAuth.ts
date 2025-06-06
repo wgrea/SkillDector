@@ -6,22 +6,24 @@ declare global {
   interface Window {
     signUp: (email: string, password: string) => Promise<{ user: any; error: any }>;
     signIn: (email: string, password: string) => Promise<{ user: any; error: any }>;
-    getSession: () => Promise<{ session: any; error: any }>; // ✅ Add this
-    refreshSession: () => Promise<{ session: any; error: any }>; // ✅ Add this
+    getSession: () => Promise<{ session: any; error: any }>;
+    refreshSession: () => Promise<{ session: any; error: any }>;
   }
 }
 
-window.signIn = async (email: string, password: string) => {
-  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-  if (data?.session) {
-    localStorage.setItem('supabase.auth.token', JSON.stringify(data.session));
-  }
-  console.log("SignIn:", { user: data?.user, error });
+window.signUp = async (email: string, password: string) => {
+  const { data, error } = await supabase.auth.signUp({ email, password });
+  console.log("SignUp:", { user: data?.user, error });
   return { user: data?.user, error };
 };
 
 window.signIn = async (email: string, password: string) => {
   const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+  if (data?.session) {
+    localStorage.setItem('supabase.auth.token', JSON.stringify(data.session));
+  }
+
   console.log("SignIn:", { user: data?.user, error });
   return { user: data?.user, error };
 };
