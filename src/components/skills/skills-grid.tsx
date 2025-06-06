@@ -35,22 +35,25 @@ export function SkillsGrid({ skills }: SkillsGridProps) {
   }
 
   return (
-    <div className={`grid gap-4 px-6 sm:gap-6 md:gap-8 lg:gap-10`} 
-      style={{
-        display: 'grid',
-        gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`,
-      }}
-    >
-      {skills.map((skill) => (
-        <SkillCard
-          key={skill.id}
-          skill={skill}
-          isExpanded={skill.id === expandedSkillId}
-          onToggleExpand={() =>
-            setExpandedSkillId(skill.id === expandedSkillId ? null : skill.id)
-          }
-        />
-      ))}
+    <div style={{ overflowY: 'auto', maxHeight: '80vh', padding: '0 6px' }}>
+      <div
+        className={`grid gap-4 sm:gap-6 md:gap-8 lg:gap-10`}
+        style={{
+          display: 'grid',
+          gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`,
+        }}
+      >
+        {skills.map((skill) => (
+          <SkillCard
+            key={skill.id}
+            skill={skill}
+            isExpanded={skill.id === expandedSkillId}
+            onToggleExpand={() =>
+              setExpandedSkillId(skill.id === expandedSkillId ? null : skill.id)
+            }
+          />
+        ))}
+      </div>
     </div>
   );
 }
