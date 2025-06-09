@@ -1,7 +1,7 @@
 // src/data/projects-data.ts
-
-import { Project, Skill, CompleteProject } from '@/types';
-import { getSkillById } from '@/data/skills-data';
+import { Project, CompleteProject, LearningPath, LearningStep, AcademicConnections } from '@/types';
+import { Skill } from '@/types'; // Add this import
+import { getSkillById } from './skills-data';
 import { validateProject } from '@/lib/data-validation';
 
 // Mock data for projects
@@ -23,6 +23,7 @@ const projects: Project[] = [
       { title: 'Portfolio Design Inspiration', url: 'https://www.behance.net/search/projects?tracking_source=typeahead_search_direct&search=portfolio%20website' },
     ],
   },
+  // Remaining ids sort of repeat but different texts
   {
     id: '2',
     title: 'E-commerce Dashboard',
@@ -112,8 +113,57 @@ const projects: Project[] = [
   },
 ];
 
+// Utility functions
+function completeLearningPath(path?: Partial<LearningPath>): LearningPath {
+  return {
+    steps: path?.steps?.map(completeLearningStep) ?? [],
+    estimatedCompletionTime: path?.estimatedCompletionTime ?? 0,
+    prerequisites: path?.prerequisites ?? []
+  };
+}
+
+function completeLearningStep(step: Partial<LearningStep>): LearningStep {
+  return {
+    title: step.title ?? '',
+    description: step.description ?? '',
+    resources: step.resources ?? [],
+    order: step.order ?? 0,
+    completed: step.completed ?? false
+  };
+}
+
+function completeAcademicConnections(academic?: Partial<AcademicConnections>): AcademicConnections {
+  return {
+    subjects: academic?.subjects ?? [],
+    concepts: academic?.concepts ?? [],
+    creditRecommendation: academic?.creditRecommendation ?? ''
+  };
+}
+
+// Add the missing completeProject function
+function completeProject(project: Partial<Project> & { id: string; title: string }): CompleteProject {
+  return {
+    ...project,
+    description: project.description ?? '',
+    difficulty: project.difficulty ?? 'medium',
+    // ... all other required fields with defaults
+    learningPath: completeLearningPath(project.learningPath),
+    academicConnections: completeAcademicConnections(project.academicConnections)
+  } as CompleteProject;
+}
+
+export function getProjectById(id: string): Project | undefined {
+  return projects.find(project => project.id === id);
+}
+
+export function getValidatedProjectById(id: string): CompleteProject | null {
+  const project = getProjectById(id);
+  if (!project || !validateProject(project)) return null;
+  return completeProject(project);
+}
+
 export function getAllProjects(): Project[] {
-  return projects;
+  return [...projects];
 }
 
 export function getProjectsByEstimatedTime(maxHours: number): Project[] {
@@ -130,11 +180,6 @@ export function getProjectsByAcademicSubject(subject: string): Project[] {
   );
 }
 
-export function getValidatedProjectById(id: string): CompleteProject | null {
-  const project = getProjectById(id);
-  return project && validateProject(project) ? project : null;
-}
-
 export function getProjectSkillGap(projectId: string, knownSkillIds: string[]): Skill[] {
   const project = getProjectById(projectId);
   if (!project) return [];
@@ -142,10 +187,6 @@ export function getProjectSkillGap(projectId: string, knownSkillIds: string[]): 
   return project.requiredSkills.filter(
     skill => !knownSkillIds.includes(skill.id)
   );
-}
-
-export function getProjectById(id: string): Project | undefined {
-  return projects.find(project => project.id === id);
 }
 
 export function getProjectsByDifficulty(difficulty: Project['difficulty']): Project[] {

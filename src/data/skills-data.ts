@@ -53,6 +53,7 @@ const skills: Skill[] = [
       trendTag: 'trending'
     }
   },
+  // Remaining ids sort of repeat but different texts
   {
     id: '2',
     name: 'TypeScript',
@@ -594,6 +595,48 @@ const skills: Skill[] = [
   },
 ];
 
+export function getSkillById(id: string): Skill | undefined {
+  return skills.find(skill => skill.id === id);
+}
+
+// Utility to fill defaults for SkillMetadata
+function completeSkillMetadata(metadata?: Partial<Skill['metadata']>): Required<Skill['metadata']> {
+  return {
+    industryDemand: metadata?.industryDemand ?? {
+      score: 0,
+      source: 'Unknown',
+      url: '',
+      lastUpdated: new Date().toISOString()
+    },
+    userPopularity: metadata?.userPopularity ?? {
+      score: 0,
+      endorsements: 0,
+      surveySource: 'Unknown',
+      lastUpdated: new Date().toISOString()
+    },
+    relevanceScore: metadata?.relevanceScore ?? 0,
+    trendTag: metadata?.trendTag ?? 'stable'
+  };
+}
+
+
+// Add the missing completeSkill function
+function completeSkill(skill: Partial<Skill> & { id: string; name: string }): CompleteSkill {
+  return {
+    ...skill,
+    description: skill.description ?? '',
+    category: skill.category ?? 'programming',
+    // ... all other required fields with defaults
+    metadata: completeSkillMetadata(skill.metadata)
+  } as CompleteSkill;
+}
+
+export function getValidatedSkillById(id: string): CompleteSkill | null {
+  const skill = getSkillById(id);
+  if (!skill || !validateSkill(skill)) return null;
+  return completeSkill(skill);
+}
+
 export function getTopSkills(limit: number = 5, category?: SkillCategory): Skill[] {
   const filtered = category 
     ? skills.filter(s => s.category === category)
@@ -614,28 +657,19 @@ export function getSkillsByLevel(level: SkillLevel): Skill[] {
   return skills.filter(s => s.level === level);
 }
 
-export function getValidatedSkillById(id: string): CompleteSkill | null {
-  const skill = getSkillById(id);
-  return skill && validateSkill(skill) ? skill : null;
-}
-
 export function sortSkills(skills: Skill[], sortType: string): Skill[] {
-  return skills.sort((a, b) => {
+  return [...skills].sort((a, b) => {
     if (sortType === "industry") {
       return (b.metadata?.industryDemand?.score ?? 0) - (a.metadata?.industryDemand?.score ?? 0);
     } else if (sortType === "community") {
       return (b.metadata?.userPopularity?.score ?? 0) - (a.metadata?.userPopularity?.score ?? 0);
     }
-    return 0; // Default case (no sorting)
+    return 0;
   });
 }
 
 export function getAllSkills(): Skill[] {
-  return skills;
-}
-
-export function getSkillById(id: string): Skill | undefined {
-  return skills.find(skill => skill.id === id);
+  return [...skills];
 }
 
 export function getSkillsByCategory(category: SkillCategory): Skill[] {
