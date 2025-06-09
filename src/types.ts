@@ -127,11 +127,11 @@ export interface UserProgress {
 // ======================
 // Utility Types
 // ======================
-export type CompleteSkill = Required<Skill> & { 
-  metadata: Required<SkillMetadata> 
+export type CompleteSkill = Skill & {
+  metadata: SkillMetadata;
 };
 
-export type CompleteProject = Required<Project> & {
-  learningPath: Required<LearningPath>;
-  academicConnections: Required<AcademicConnections>;
+export type CompleteProject = Project & {
+  learningPath: LearningPath;
+  academicConnections: AcademicConnections;
 };
