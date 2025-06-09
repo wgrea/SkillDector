@@ -137,3 +137,40 @@ button:focus-visible {
     @apply bg-background text-foreground;
   }
 }
+
+/* src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Add these rules for touch device handling */
+@layer utilities {
+  .radix-touch-hide {
+    display: none !important;
+    pointer-events: none !important;
+  }
+}
+
+@media (pointer: coarse) {
+  [data-radix-hover-card-trigger] {
+    touch-action: manipulation;
+  }
+  
+  [data-radix-hover-card-content] {
+    @apply radix-touch-hide;
+  }
+}
+
+/* Base touch handling */
+html {
+  touch-action: manipulation;
+}
+
+/* Add to your src/index.css */
+[data-radix-hover-card-trigger] {
+  touch-action: manipulation;
+}
+
+[data-radix-hover-card-content] {
+  touch-action: pan-y;
+}
