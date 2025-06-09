@@ -1,3 +1,5 @@
+// src/components/layout/footer.tsx
+
 import { Lightbulb, Github, Twitter, Linkedin, Mail } from 'lucide-react';
 
 export function Footer() {
@@ -81,8 +83,12 @@ export function Footer() {
           </div>
         ))}
       </div>
+
+      <a href="/data-sourcing" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+      Learn About Our Data
+    </a>
       
-      <div className="container mt-8 pt-8 border-t">
+      <div className="container mt-12 pt-12 border-t">
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-sm text-muted-foreground">
             © {currentYear} SkillsHub. All rights reserved.

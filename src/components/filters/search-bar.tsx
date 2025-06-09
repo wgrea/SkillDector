@@ -1,3 +1,5 @@
+// src/components/filters/search-bar.tsx
+
 import { useState, useEffect } from 'react';
 import { Search, X } from 'lucide-react';
 import { Input } from '@/components/ui/input';

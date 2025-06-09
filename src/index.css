@@ -32,6 +32,8 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
 }
 
 h1 {
@@ -134,4 +136,13 @@ button:focus-visible {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Add to your src/index.css */
+[data-radix-hover-card-trigger] {
+  touch-action: manipulation;
+}
+
+[data-radix-hover-card-content] {
+  touch-action: pan-y;
 }

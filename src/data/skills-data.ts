@@ -1,6 +1,6 @@
 // src/data/skills-data.ts
-
-import { Skill, SkillCategory } from '@/types';
+import { Skill, SkillCategory, SkillLevel, CompleteSkill } from '@/types';
+import { validateSkill } from '@/lib/data-validation';
 
 // Mock data for skills
 const skills: Skill[] = [
@@ -21,21 +21,37 @@ const skills: Skill[] = [
       description: 'Official React documentation and resources',
       lastUpdated: '2024-01-15'
     },
-    demandScore: 92,
+    demandScore: 92, // Ensure this property is present
     salaryRange: {
       min: 80000,
       max: 150000,
       currency: 'USD'
     },
     jobPostings: 15000,
-    linkedInEndorsements: 500000,
+    linkedInEndorsements: 500000, // Ensure this property is present
     certifications: [
       {
         name: 'Meta React Developer Certificate',
         provider: 'Meta',
         url: 'https://www.coursera.org/professional-certificates/meta-front-end-developer'
       }
-    ]
+    ],
+    metadata: {
+      industryDemand: {
+        score: 92,
+        source: 'LinkedIn Job Analytics',
+        url: 'https://www.linkedin.com/jobs/',
+        lastUpdated: '2025-05-20'
+      },
+      userPopularity: {
+        score: 95,
+        endorsements: 500000,
+        surveySource: 'Developer Community Polls',
+        lastUpdated: '2025-06-01'
+      },
+      relevanceScore: 93,
+      trendTag: 'trending'
+    }
   },
   {
     id: '2',
@@ -68,7 +84,23 @@ const skills: Skill[] = [
         provider: 'Microsoft',
         url: 'https://learn.microsoft.com/en-us/training/paths/build-javascript-applications-typescript/'
       }
-    ]
+    ],
+    metadata: {
+      industryDemand: {
+        score: 88,
+        source: 'LinkedIn Job Analytics',
+        url: 'https://www.linkedin.com/jobs/',
+        lastUpdated: '2025-05-20'
+      },
+      userPopularity: {
+        score: 92,
+        endorsements: 400000,
+        surveySource: 'Developer Community Polls',
+        lastUpdated: '2025-06-01'
+      },
+      relevanceScore: 90,
+      trendTag: 'trending'
+    }
   },
   {
     id: '3',
@@ -101,7 +133,23 @@ const skills: Skill[] = [
         provider: 'Google',
         url: 'https://www.coursera.org/professional-certificates/google-ux-design'
       }
-    ]
+    ],
+    metadata: {
+      industryDemand: {
+        score: 85,
+        source: 'LinkedIn Job Analytics',
+        url: 'https://www.linkedin.com/jobs/',
+        lastUpdated: '2025-05-20'
+      },
+      userPopularity: {
+        score: 88,
+        endorsements: 300000,
+        surveySource: 'Developer Community Polls',
+        lastUpdated: '2025-06-01'
+      },
+      relevanceScore: 87,
+      trendTag: 'stable'
+    }
   },
   {
     id: '4',
@@ -134,7 +182,23 @@ const skills: Skill[] = [
         provider: 'Python Institute',
         url: 'https://pythoninstitute.org/pcep'
       }
-    ]
+    ],
+    metadata: {
+      industryDemand: {
+        score: 94,
+        source: 'LinkedIn Job Analytics',
+        url: 'https://www.linkedin.com/jobs/',
+        lastUpdated: '2025-05-20'
+      },
+      userPopularity: {
+        score: 96,
+        endorsements: 600000,
+        surveySource: 'Developer Community Polls',
+        lastUpdated: '2025-06-01'
+      },
+      relevanceScore: 95,
+      trendTag: 'trending'
+    }
   },
   {
     id: '5',
@@ -167,7 +231,23 @@ const skills: Skill[] = [
         provider: 'Google',
         url: 'https://www.coursera.org/professional-certificates/google-data-analytics'
       }
-    ]
+    ],
+    metadata: {
+      industryDemand: {
+        score: 89,
+        source: 'LinkedIn Job Analytics',
+        url: 'https://www.linkedin.com/jobs/',
+        lastUpdated: '2025-05-20'
+      },
+      userPopularity: {
+        score: 90,
+        endorsements: 350000,
+        surveySource: 'Developer Community Polls',
+        lastUpdated: '2025-06-01'
+      },
+      relevanceScore: 89,
+      trendTag: 'stable'
+    }
   },
   {
     id: '6',
@@ -200,7 +280,23 @@ const skills: Skill[] = [
         provider: 'HubSpot Academy',
         url: 'https://academy.hubspot.com/courses/digital-marketing'
       }
-    ]
+    ],
+    metadata: {
+      industryDemand: {
+        score: 89,
+        source: 'LinkedIn Job Analytics',
+        url: 'https://www.linkedin.com/jobs/',
+        lastUpdated: '2025-05-20'
+      },
+      userPopularity: {
+        score: 90,
+        endorsements: 350000,
+        surveySource: 'Developer Community Polls',
+        lastUpdated: '2025-06-01'
+      },
+      relevanceScore: 89,
+      trendTag: 'stable'
+    }
   },
   {
     id: '7',
@@ -233,7 +329,23 @@ const skills: Skill[] = [
         provider: 'Google',
         url: 'https://www.tensorflow.org/certificate'
       }
-    ]
+    ],
+    metadata: {
+      industryDemand: {
+        score: 91,
+        source: 'LinkedIn Job Analytics',
+        url: 'https://www.linkedin.com/jobs/',
+        lastUpdated: '2025-05-20'
+      },
+      userPopularity: {
+        score: 93,
+        endorsements: 200000,
+        surveySource: 'Developer Community Polls',
+        lastUpdated: '2025-06-01'
+      },
+      relevanceScore: 92,
+      trendTag: 'trending'
+    }
   },
   {
     id: '8',
@@ -266,7 +378,23 @@ const skills: Skill[] = [
         provider: 'PMI',
         url: 'https://www.pmi.org/certifications/project-management-pmp'
       }
-    ]
+    ],
+    metadata: {
+      industryDemand: {
+        score: 80,
+        source: 'LinkedIn Job Analytics',
+        url: 'https://www.linkedin.com/jobs/',
+        lastUpdated: '2025-05-20'
+      },
+      userPopularity: {
+        score: 82,
+        endorsements: 400000,
+        surveySource: 'Developer Community Polls',
+        lastUpdated: '2025-06-01'
+      },
+      relevanceScore: 81,
+      trendTag: 'stable'
+    }
   },
   {
     id: '9',
@@ -299,7 +427,23 @@ const skills: Skill[] = [
         provider: 'OpenJS Foundation',
         url: 'https://training.linuxfoundation.org/certification/jsnad/'
       }
-    ]
+    ],
+    metadata: {
+      industryDemand: {
+        score: 87,
+        source: 'LinkedIn Job Analytics',
+        url: 'https://www.linkedin.com/jobs/',
+        lastUpdated: '2025-05-20'
+      },
+      userPopularity: {
+        score: 89,
+        endorsements: 450000,
+        surveySource: 'Developer Community Polls',
+        lastUpdated: '2025-06-01'
+      },
+      relevanceScore: 88,
+      trendTag: 'stable'
+    }
   },
   {
     id: '10',
@@ -332,7 +476,23 @@ const skills: Skill[] = [
         provider: 'Figma',
         url: 'https://www.figma.com/resources/learn-design/'
       }
-    ]
+    ],
+    metadata: {
+      industryDemand: {
+        score: 86,
+        source: 'LinkedIn Job Analytics',
+        url: 'https://www.linkedin.com/jobs/',
+        lastUpdated: '2025-05-20'
+      },
+      userPopularity: {
+        score: 91,
+        endorsements: 200000,
+        surveySource: 'Designer Community Polls',
+        lastUpdated: '2025-06-01'
+      },
+      relevanceScore: 88,
+      trendTag: 'trending'
+    }
   },
   {
     id: '11',
@@ -365,7 +525,23 @@ const skills: Skill[] = [
         provider: 'Oracle',
         url: 'https://education.oracle.com/oracle-database-sql-certified-associate'
       }
-    ]
+    ],
+    metadata: {
+      industryDemand: {
+        score: 85,
+        source: 'LinkedIn Job Analytics',
+        url: 'https://www.linkedin.com/jobs/',
+        lastUpdated: '2025-05-20'
+      },
+      userPopularity: {
+        score: 87,
+        endorsements: 500000,
+        surveySource: 'Developer Community Polls',
+        lastUpdated: '2025-06-01'
+      },
+      relevanceScore: 86,
+      trendTag: 'stable'
+    }
   },
   {
     id: '12',
@@ -398,9 +574,61 @@ const skills: Skill[] = [
         provider: 'Amazon Web Services',
         url: 'https://aws.amazon.com/certification/certified-solutions-architect-associate/'
       }
-    ]
+    ],
+    metadata: {
+      industryDemand: {
+        score: 93,
+        source: 'LinkedIn Job Analytics',
+        url: 'https://www.linkedin.com/jobs/',
+        lastUpdated: '2025-05-20'
+      },
+      userPopularity: {
+        score: 94,
+        endorsements: 350000,
+        surveySource: 'Developer Community Polls',
+        lastUpdated: '2025-06-01'
+      },
+      relevanceScore: 93,
+      trendTag: 'trending'
+    }
   },
 ];
+
+export function getTopSkills(limit: number = 5, category?: SkillCategory): Skill[] {
+  const filtered = category 
+    ? skills.filter(s => s.category === category)
+    : [...skills];
+    
+  return filtered
+    .sort((a, b) => (b.metadata?.industryDemand?.score || 0) - (a.metadata?.industryDemand?.score || 0))
+    .slice(0, limit);
+}
+
+export function getTrendingSkills(): Skill[] {
+  return skills.filter(s => 
+    s.metadata?.trendTag === 'trending' || s.metadata?.trendTag === 'high-demand'
+  );
+}
+
+export function getSkillsByLevel(level: SkillLevel): Skill[] {
+  return skills.filter(s => s.level === level);
+}
+
+export function getValidatedSkillById(id: string): CompleteSkill | null {
+  const skill = getSkillById(id);
+  return skill && validateSkill(skill) ? skill : null;
+}
+
+export function sortSkills(skills: Skill[], sortType: string): Skill[] {
+  return skills.sort((a, b) => {
+    if (sortType === "industry") {
+      return (b.metadata?.industryDemand?.score ?? 0) - (a.metadata?.industryDemand?.score ?? 0);
+    } else if (sortType === "community") {
+      return (b.metadata?.userPopularity?.score ?? 0) - (a.metadata?.userPopularity?.score ?? 0);
+    }
+    return 0; // Default case (no sorting)
+  });
+}
 
 export function getAllSkills(): Skill[] {
   return skills;

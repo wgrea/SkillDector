@@ -1,7 +1,8 @@
 // src/data/projects-data.ts
 
-import { Project } from '@/types';
+import { Project, Skill, CompleteProject } from '@/types';
 import { getSkillById } from '@/data/skills-data';
+import { validateProject } from '@/lib/data-validation';
 
 // Mock data for projects
 const projects: Project[] = [
@@ -113,6 +114,34 @@ const projects: Project[] = [
 
 export function getAllProjects(): Project[] {
   return projects;
+}
+
+export function getProjectsByEstimatedTime(maxHours: number): Project[] {
+  return projects.filter(p => p.estimatedHours <= maxHours);
+}
+
+export function getProjectsWithLearningPaths(): Project[] {
+  return projects.filter(p => (p.learningPath?.steps?.length ?? 0) > 0);
+}
+
+export function getProjectsByAcademicSubject(subject: string): Project[] {
+  return projects.filter(p => 
+    p.academicConnections?.subjects?.includes(subject)
+  );
+}
+
+export function getValidatedProjectById(id: string): CompleteProject | null {
+  const project = getProjectById(id);
+  return project && validateProject(project) ? project : null;
+}
+
+export function getProjectSkillGap(projectId: string, knownSkillIds: string[]): Skill[] {
+  const project = getProjectById(projectId);
+  if (!project) return [];
+  
+  return project.requiredSkills.filter(
+    skill => !knownSkillIds.includes(skill.id)
+  );
 }
 
 export function getProjectById(id: string): Project | undefined {

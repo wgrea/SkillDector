@@ -1,4 +1,5 @@
-import { useState } from 'react';
+// src/components/projects/project-card.tsx
+import { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronDown, ChevronUp, Clock, Bookmark, ExternalLink } from 'lucide-react';
 import { Project } from '@/types';
@@ -7,6 +8,9 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ProjectDifficultyBadge } from '@/components/projects/project-difficulty-badge';
 import { cn } from '@/lib/utils';
+import { useSession } from '@/hooks/use-session';
+import { AnalyticsEvents } from '@/lib/analytics-events';
+import { useDebounce } from '@/hooks/use-debounce'; // Make sure this exists
 
 interface ProjectCardProps {
   project: Project;
@@ -16,19 +20,116 @@ interface ProjectCardProps {
 
 export function ProjectCard({ project, isExpanded, onToggleExpand }: ProjectCardProps) {
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const { sessionId } = useSession();
   
-  const toggleBookmark = (e: React.MouseEvent) => {
+  // Enhanced base properties with proper typing
+  const baseEventProps = useCallback(() => ({
+    session_id: sessionId,
+    platform: 'web' as const, // strictly typed
+    timestamp: Date.now(),
+    user_agent: navigator.userAgent,
+    project_title: project.title,
+    project_difficulty: project.difficulty,
+    project_id: project.id
+  }), [sessionId, project.title, project.difficulty, project.id]);
+
+  // Replace trackEvent with strongly-typed version
+  const trackProjectEvent = useCallback(
+    (type: 'view' | 'interaction', payload: {
+      interaction_type?: 'click' | 'save' | 'share' | 'hover' | 'unsave',
+      element_id: string,
+      [key: string]: unknown
+    }) => {
+      const base = baseEventProps();
+      
+      try {
+        if (type === 'view') {
+          AnalyticsEvents.project.view({
+            technology: project.requiredSkills.map(s => s.name),
+            ...payload
+          }, base);
+        } else {
+          AnalyticsEvents.project.interaction({
+            ...payload
+          }, base);
+        }
+      } catch (error) {
+        console.error('Analytics tracking failed:', error);
+      }
+    }, 
+    [baseEventProps, project.requiredSkills]
+  );
+
+  const trackHoverEvent = useDebounce(
+    useCallback(() => {
+      trackProjectEvent('interaction', {
+        interaction_type: 'hover',
+        element_id: `project-card-${project.id}`,
+        duration_ms: 2000 // Estimated hover duration
+      });
+    }, [trackProjectEvent, project.id]),
+    300 // Debounce time in ms
+  );
+
+  // Bookmark handler with proper typing
+  const toggleBookmark = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
-    setIsBookmarked(!isBookmarked);
-  };
-  
+    const newState = !isBookmarked;
+    
+    trackProjectEvent('interaction', {
+      interaction_type: newState ? 'save' : 'unsave',
+      element_id: 'project-bookmark',
+      bookmark_state: newState
+    });
+
+    setIsBookmarked(newState);
+  }, [isBookmarked, trackProjectEvent]);
+
+  const handleExpandToggle = useCallback(() => {
+    trackProjectEvent('interaction', {
+      interaction_type: 'click',
+      element_id: 'expand-toggle'
+    });
+
+    if (!isExpanded) {
+      trackProjectEvent('view', {
+        element_id: `project-view-${project.id}`
+      });
+    }
+    
+    onToggleExpand();
+  }, [isExpanded, onToggleExpand, trackProjectEvent, project.id]);
+
+  const handleResourceClick = useCallback((e: React.MouseEvent, resource: { url: string; title: string }) => {
+    e.stopPropagation();
+    trackProjectEvent('interaction', {
+      interaction_type: 'click',
+      element_id: `resource-${resource.title.toLowerCase().replace(/\s+/g, '-')}`,
+      resource_type: resource.url.includes('youtube') ? 'video' : 'article'
+    });
+    
+    setTimeout(() => {
+      window.open(resource.url, '_blank', 'noopener,noreferrer');
+    }, 150);
+  }, [trackProjectEvent]);
+
+  const handleSkillClick = useCallback((e: React.MouseEvent, skill: { id: string; name: string }) => {
+    e.stopPropagation();
+    trackProjectEvent('interaction', {
+      interaction_type: 'click',
+      element_id: `skill-${skill.id}`,
+      skill_name: skill.name
+    });
+  }, [trackProjectEvent]);
+
   return (
     <Card 
       className={cn(
         "transition-shadow hover:shadow-md cursor-pointer overflow-hidden h-full flex flex-col",
         isExpanded ? "shadow-md" : ""
       )}
-      onClick={onToggleExpand}
+      onClick={handleExpandToggle}
+      onMouseEnter={trackHoverEvent}
     >
       <div 
         className="h-48 bg-cover bg-center relative"
@@ -52,6 +153,7 @@ export function ProjectCard({ project, isExpanded, onToggleExpand }: ProjectCard
             size="icon" 
             className="h-8 w-8" 
             onClick={toggleBookmark}
+            aria-label={isBookmarked ? "Remove bookmark" : "Add bookmark"}
           >
             <Bookmark 
               className={cn(
@@ -59,7 +161,6 @@ export function ProjectCard({ project, isExpanded, onToggleExpand }: ProjectCard
                 isBookmarked ? "fill-primary text-primary" : "text-muted-foreground"
               )} 
             />
-            <span className="sr-only">Bookmark</span>
           </Button>
         </div>
         <p className="text-sm text-muted-foreground line-clamp-2 mt-1">
@@ -70,7 +171,12 @@ export function ProjectCard({ project, isExpanded, onToggleExpand }: ProjectCard
       <CardContent className="pb-3">
         <div className="flex flex-wrap gap-1.5">
           {project.requiredSkills.slice(0, 3).map((skill) => (
-            <Badge key={skill.id} variant="outline" className="text-xs">
+            <Badge 
+              key={skill.id} 
+              variant="outline" 
+              className="text-xs cursor-pointer"
+              onClick={(e) => handleSkillClick(e, skill)}
+            >
               {skill.name}
             </Badge>
           ))}
@@ -98,7 +204,8 @@ export function ProjectCard({ project, isExpanded, onToggleExpand }: ProjectCard
                   {project.requiredSkills.map((skill) => (
                     <div 
                       key={skill.id} 
-                      className="flex items-center p-2 rounded-md bg-muted/50"
+                      className="flex items-center p-2 rounded-md bg-muted/50 cursor-pointer"
+                      onClick={(e) => handleSkillClick(e, skill)}
                     >
                       <span 
                         className="text-lg mr-2"
@@ -122,7 +229,7 @@ export function ProjectCard({ project, isExpanded, onToggleExpand }: ProjectCard
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center text-sm text-primary hover:underline"
-                      onClick={(e) => e.stopPropagation()}
+                      onClick={(e) => handleResourceClick(e, resource)}
                     >
                       <ExternalLink className="h-3.5 w-3.5 mr-1.5" />
                       {resource.title}
@@ -140,15 +247,13 @@ export function ProjectCard({ project, isExpanded, onToggleExpand }: ProjectCard
           variant="ghost" 
           size="sm" 
           className="ml-auto h-8 w-8 p-0"
+          aria-label={isExpanded ? "Collapse project details" : "Expand project details"}
         >
           {isExpanded ? (
             <ChevronUp className="h-4 w-4" />
           ) : (
             <ChevronDown className="h-4 w-4" />
           )}
-          <span className="sr-only">
-            {isExpanded ? "Show less" : "Show more"}
-          </span>
         </Button>
       </CardFooter>
     </Card>
