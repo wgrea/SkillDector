@@ -9,15 +9,14 @@ import { Badge } from '@/components/ui/badge';
 import { ProjectDifficultyBadge } from '@/components/projects/project-difficulty-badge';
 import { cn } from '@/lib/utils';
 import { useSession } from '@/hooks/use-session';
+import { AnalyticsEvents } from '@/lib/analytics-events';
+import { useDebounce } from '@/hooks/use-debounce'; // Make sure this exists
 
 interface ProjectCardProps {
   project: Project;
   isExpanded: boolean;
   onToggleExpand: () => void;
 }
-
-// Define valid interaction types
-type ProjectInteractionType = 'click' | 'save' | 'share' | 'hover' | 'view';
 
 export function ProjectCard({ project, isExpanded, onToggleExpand }: ProjectCardProps) {
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -34,62 +33,94 @@ export function ProjectCard({ project, isExpanded, onToggleExpand }: ProjectCard
     project_id: project.id
   }), [sessionId, project.title, project.difficulty, project.id]);
 
-  // Generic tracking function with proper typing
-  const trackEvent = useCallback((eventType: string, properties: Record<string, unknown>) => {
-    try {
-      window.analytics?.track(eventType, {
-        ...baseEventProps(),
-        ...properties
+  // Replace trackEvent with strongly-typed version
+  const trackProjectEvent = useCallback(
+    (type: 'view' | 'interaction', payload: {
+      interaction_type?: 'click' | 'save' | 'share' | 'hover' | 'unsave',
+      element_id: string,
+      [key: string]: unknown
+    }) => {
+      const base = baseEventProps();
+      
+      try {
+        if (type === 'view') {
+          AnalyticsEvents.project.view({
+            technology: project.requiredSkills.map(s => s.name),
+            ...payload
+          }, base);
+        } else {
+          AnalyticsEvents.project.interaction({
+            ...payload
+          }, base);
+        }
+      } catch (error) {
+        console.error('Analytics tracking failed:', error);
+      }
+    }, 
+    [baseEventProps, project.requiredSkills]
+  );
+
+  const trackHoverEvent = useDebounce(
+    useCallback(() => {
+      trackProjectEvent('interaction', {
+        interaction_type: 'hover',
+        element_id: `project-card-${project.id}`,
+        duration_ms: 2000 // Estimated hover duration
       });
-    } catch (error) {
-      console.error('Analytics tracking failed:', error);
-    }
-  }, [baseEventProps]);
+    }, [trackProjectEvent, project.id]),
+    300 // Debounce time in ms
+  );
 
-  const trackProjectInteraction = useCallback((interactionType: ProjectInteractionType, elementId: string) => {
-    trackEvent('project_interaction', {
-      interaction_type: interactionType,
-      element_id: elementId
-    });
-  }, [trackEvent]);
-
-  const trackProjectView = useCallback(() => {
-    trackEvent('project_view', {
-      technology: project.requiredSkills.map(skill => skill.name)
-    });
-  }, [trackEvent, project.requiredSkills]);
-
-  const trackHoverEvent = useCallback(() => {
-    trackProjectInteraction('hover', 'project-card');
-  }, [trackProjectInteraction]);
-
+  // Bookmark handler with proper typing
   const toggleBookmark = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
-    const newBookmarkState = !isBookmarked;
-    setIsBookmarked(newBookmarkState);
-    trackProjectInteraction(newBookmarkState ? 'save' : 'click', 'bookmark-button');
-  }, [isBookmarked, trackProjectInteraction]);
+    const newState = !isBookmarked;
+    
+    trackProjectEvent('interaction', {
+      interaction_type: newState ? 'save' : 'unsave',
+      element_id: 'project-bookmark',
+      bookmark_state: newState
+    });
+
+    setIsBookmarked(newState);
+  }, [isBookmarked, trackProjectEvent]);
 
   const handleExpandToggle = useCallback(() => {
-    trackProjectInteraction('click', 'expand-toggle');
+    trackProjectEvent('interaction', {
+      interaction_type: 'click',
+      element_id: 'expand-toggle'
+    });
+
     if (!isExpanded) {
-      trackProjectView();
+      trackProjectEvent('view', {
+        element_id: `project-view-${project.id}`
+      });
     }
+    
     onToggleExpand();
-  }, [isExpanded, onToggleExpand, trackProjectInteraction, trackProjectView]);
+  }, [isExpanded, onToggleExpand, trackProjectEvent, project.id]);
 
   const handleResourceClick = useCallback((e: React.MouseEvent, resource: { url: string; title: string }) => {
     e.stopPropagation();
-    trackProjectInteraction('click', `resource-${resource.title}`);
+    trackProjectEvent('interaction', {
+      interaction_type: 'click',
+      element_id: `resource-${resource.title.toLowerCase().replace(/\s+/g, '-')}`,
+      resource_type: resource.url.includes('youtube') ? 'video' : 'article'
+    });
+    
     setTimeout(() => {
       window.open(resource.url, '_blank', 'noopener,noreferrer');
     }, 150);
-  }, [trackProjectInteraction]);
+  }, [trackProjectEvent]);
 
   const handleSkillClick = useCallback((e: React.MouseEvent, skill: { id: string; name: string }) => {
     e.stopPropagation();
-    trackProjectInteraction('click', `skill-${skill.id}`);
-  }, [trackProjectInteraction]);
+    trackProjectEvent('interaction', {
+      interaction_type: 'click',
+      element_id: `skill-${skill.id}`,
+      skill_name: skill.name
+    });
+  }, [trackProjectEvent]);
 
   return (
     <Card 

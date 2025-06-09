@@ -1,6 +1,6 @@
 // src/data/skills-data.ts
-
-import { Skill, SkillCategory } from '@/types';
+import { Skill, SkillCategory, SkillLevel, CompleteSkill } from '@/types';
+import { validateSkill } from '@/lib/data-validation';
 
 // Mock data for skills
 const skills: Skill[] = [
@@ -593,6 +593,31 @@ const skills: Skill[] = [
     }
   },
 ];
+
+export function getTopSkills(limit: number = 5, category?: SkillCategory): Skill[] {
+  const filtered = category 
+    ? skills.filter(s => s.category === category)
+    : [...skills];
+    
+  return filtered
+    .sort((a, b) => (b.metadata?.industryDemand?.score || 0) - (a.metadata?.industryDemand?.score || 0))
+    .slice(0, limit);
+}
+
+export function getTrendingSkills(): Skill[] {
+  return skills.filter(s => 
+    s.metadata?.trendTag === 'trending' || s.metadata?.trendTag === 'high-demand'
+  );
+}
+
+export function getSkillsByLevel(level: SkillLevel): Skill[] {
+  return skills.filter(s => s.level === level);
+}
+
+export function getValidatedSkillById(id: string): CompleteSkill | null {
+  const skill = getSkillById(id);
+  return skill && validateSkill(skill) ? skill : null;
+}
 
 export function sortSkills(skills: Skill[], sortType: string): Skill[] {
   return skills.sort((a, b) => {
