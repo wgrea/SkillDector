@@ -45,19 +45,22 @@ export function ProjectCard({ project, isExpanded, onToggleExpand }: ProjectCard
       try {
         if (type === 'view') {
           AnalyticsEvents.project.view({
+            project_id: project.id, // REQUIRED - Add this
             technology: project.requiredSkills.map(s => s.name),
             ...payload
           }, base);
         } else {
           AnalyticsEvents.project.interaction({
-            ...payload
+            interaction_type: payload.interaction_type ?? 'click', // default value
+            element_id: payload.element_id,
+            project_id: project.id
           }, base);
         }
       } catch (error) {
         console.error('Analytics tracking failed:', error);
       }
     }, 
-    [baseEventProps, project.requiredSkills]
+    [baseEventProps, project.requiredSkills, project.id] // Add project.id to dependencies
   );
 
   const trackHoverEvent = useDebounce(

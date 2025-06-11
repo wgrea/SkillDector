@@ -6,7 +6,7 @@ export const generateSkill = (overrides: Partial<Skill> = {}): Skill => ({
   id: `skill-${crypto.randomUUID()}`,
   name: 'New Skill',
   description: '',
-  category: 'programming',
+  category: 'frontend',
   popularityScore: 50,
   growthRate: 0,
   icon: '✨',

@@ -3,7 +3,7 @@
 // Base properties that all events share
 interface BaseEventProperties {
   user_id?: string;
-  session_id: string;
+  session_id: string | null; // Allow null
   timestamp?: number;
   device_id?: string;
   platform?: 'web' | 'mobile';
@@ -39,7 +39,7 @@ interface ProjectViewEvent {
 
 interface ProjectInteractionEvent {
   event_type: 'project:interaction';
-  interaction_type: 'click' | 'save' | 'share';
+  interaction_type: 'click' | 'save' | 'share' | 'hover' | 'unsave'; // Add missing types
   element_id: string;
   project_id: string;
 }
@@ -69,7 +69,6 @@ type EventProperties<T extends AnalyticsEvent['event_type']> = Omit<
 >;
 
 // Strongly-typed event builder
-// Update the createEventBuilder function
 export const createEventBuilder = <T extends AnalyticsEvent['event_type']>(type: T) => {
   return (
     properties: EventProperties<T>,
@@ -79,20 +78,36 @@ export const createEventBuilder = <T extends AnalyticsEvent['event_type']>(type:
       ...baseProperties,
       event_type: type,
       timestamp: Date.now(),
-      ...properties
+      ...properties,
     };
 
-    // Type guard to verify the event matches the union
+    // Optional type guard for validation
     function isAnalyticsEvent(event: any): event is AnalyticsEvent {
-      // Basic validation - expand as needed
-      return !!event.event_type && !!event.session_id;
+      if (!event || typeof event !== 'object') return false;
+
+      if (!event.event_type || !event.session_id) return false;
+
+      // Additional validation for known event types
+      switch (event.event_type) {
+        case 'project:view':
+          return !!event.project_id;
+        case 'project:interaction':
+          return !!event.project_id && !!event.element_id && !!event.interaction_type;
+        case 'auth:signup':
+          return !!event.signup_method && typeof event.is_first_session === 'boolean';
+        case 'error:occurred':
+          return !!event.severity && !!event.error_code && !!event.error_message;
+        default:
+          return true; // Allow other events to pass basic validation
+      }
     }
 
+    // Validate the event
     if (!isAnalyticsEvent(event)) {
       throw new Error('Constructed event does not match AnalyticsEvent type');
     }
 
-    return event;
+    return event; // Return the constructed event
   };
 };
 

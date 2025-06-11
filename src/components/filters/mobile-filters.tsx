@@ -1,3 +1,5 @@
+// src/components/filters/mobile-filters.tsx
+
 import { 
   Select, 
   SelectContent, 
@@ -18,13 +20,20 @@ export function MobileFilters({
   selectedCategory, 
   onSelectCategory 
 }: MobileFiltersProps) {
+  // src/components/filters/mobile-filters.tsx
   const categoryIcons: Record<SkillCategory, string> = {
-    programming: '💻',
+    security: '🔒',
     design: '🎨',
     data: '📊',
     marketing: '📢',
     business: '💼',
     ai: '🤖',
+    frontend: '💻',
+    backend: '⚙️',
+    cloud: '☁️',
+    devops: '🔄',
+    scripting: '📜',
+    embedded: '🔌'
   };
   
   const handleChange = (value: string) => {

@@ -1,7 +1,7 @@
 // src/hooks/useSessionRecovery.ts
 
 import { useEffect } from 'react';
-import { supabase } from '@/lib/supabaseClient'; // Preferred
+import supabase from '@/lib/supabaseClient';
 
 export function useSessionRecovery() {
   useEffect(() => {
@@ -18,7 +18,11 @@ export function useSessionRecovery() {
         return;
       }
 
-      // Validate session expiration
+      if (!session.expires_at) {
+        console.log('Session expiration time is not available');
+        return;
+      }
+
       const expiresAt = new Date(session.expires_at * 1000);
       if (expiresAt <= new Date()) {
         console.log('Session expired');
