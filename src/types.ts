@@ -4,17 +4,23 @@
 // Base Types (unchanged)
 // ======================
 export type SkillCategory = 
-  | 'programming' 
+  | 'security' 
   | 'design' 
   | 'data' 
   | 'marketing' 
-  | 'business'
-  | 'ai';
+  | 'business' 
+  | 'ai' 
+  | 'frontend' 
+  | 'backend' 
+  | 'cloud' 
+  | 'devops'
+  | 'scripting'
+  | 'embedded';
 
 export type SkillLevel = 'beginner' | 'intermediate' | 'advanced';
 export type ProjectDifficulty = 'easy' | 'medium' | 'hard' | 'expert';
 export type Currency = 'USD' | 'EUR' | 'GBP' | 'JPY' | 'CAD';
-export type TrendTag = 'trending' | 'stable' | 'declining' | 'high-demand' | 'emerging';
+export type TrendTag = 'critical' | 'high-demand' | 'high-growth' | 'surging' | 'rising' | 'emerging' | 'trending' | 'steady' | 'stable' | 'declining';
 export type ResourceType = 'video' | 'article' | 'tutorial' | 'documentation' | 'course';
 
 // ======================

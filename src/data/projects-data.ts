@@ -4,7 +4,38 @@ import { Skill } from '@/types'; // Add this import
 import { getSkillById } from './skills-data';
 import { validateProject } from '@/lib/data-validation';
 
+// id: 1, React
+// id: 2, TypeScript
+// id: 3, GraphQL
+// id: 4, Node.js
+// id: 5, API Design
+// id: 6, Software Architecture
+// id: 7, System Optimization
+// id: 8, API Integration
+// id: 9, Zod Validation 
+// id: 10, Cloud Computing
+// id: 11, DevOps & CI/CD
+// id: 12, Testing & Validation
+// id: 13, Web Performance & Scalability Optimization
+// id: 14, Cybersecurity
+// id: 15, API Security & Authentication
+// id: 16, Data Analysis
+// id: 17, SQL
+// id: 18, Data Engineering
+// id: 19, Database Management 
+// id: 20, Data Visualization
+// id: 21, Python
+// id: 22, Embedded Systems Programming
+// id: 23, Machine Learning
+// id: 24, Prompt Engineering
+// id: 25, Natural Language Processing (NLP)
+// id: 26, UI/UX Design
+// id: 27, Figma
+// id: 28, Project Management
+
+
 // Mock data for projects
+// Keep the comments for the required skills
 const projects: Project[] = [
   {
     id: '1',
@@ -13,9 +44,10 @@ const projects: Project[] = [
     difficulty: 'easy',
     estimatedHours: 10,
     requiredSkills: [
-      getSkillById('1')!, // React
-      getSkillById('3')!, // UI/UX Design
-      getSkillById('10')!, // Figma
+      getSkillById('1')!, // (React) – Frontend framework
+      getSkillById('26')!, // (UI/UX Design) – Design principles for portfolios
+      getSkillById('20')!, // (Data Visualization) – Showcasing projects visually
+      getSkillById('27')!, // (Figma) – Optional for mockups
     ],
     imageUrl: 'https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     resourceLinks: [
@@ -31,10 +63,12 @@ const projects: Project[] = [
     difficulty: 'hard',
     estimatedHours: 35,
     requiredSkills: [
-      getSkillById('1')!, // React
-      getSkillById('2')!, // TypeScript
-      getSkillById('5')!, // Data Analysis
-      getSkillById('9')!, // Node.js
+      getSkillById('1')!,   // React
+      getSkillById('2')!,   // TypeScript
+      getSkillById('4')!,   // Node.js
+      getSkillById('15')!,  // API Security
+      getSkillById('17')!,  // SQL
+      getSkillById('20')!,  // Data Visualization
     ],
     imageUrl: 'https://images.pexels.com/photos/186461/pexels-photo-186461.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     resourceLinks: [
@@ -49,9 +83,10 @@ const projects: Project[] = [
     difficulty: 'expert',
     estimatedHours: 45,
     requiredSkills: [
-      getSkillById('4')!, // Python
-      getSkillById('7')!, // Machine Learning
-      getSkillById('5')!, // Data Analysis
+      getSkillById('21')!,  // Python
+      getSkillById('23')!,  // Machine Learning
+      getSkillById('18')!,  // Data Engineering
+      getSkillById('25')!,  // (NLP) – Optional for text-based classification
     ],
     imageUrl: 'https://images.pexels.com/photos/2599244/pexels-photo-2599244.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     resourceLinks: [
@@ -66,9 +101,10 @@ const projects: Project[] = [
     difficulty: 'medium',
     estimatedHours: 25,
     requiredSkills: [
-      getSkillById('1')!, // React
-      getSkillById('6')!, // Digital Marketing
-      getSkillById('9')!, // Node.js
+      getSkillById('1')!,  // React
+      getSkillById('4')!,  // Node.js
+      getSkillById('8')!,  // API Integration
+      getSkillById('19')!, // Database Management
     ],
     imageUrl: 'https://images.pexels.com/photos/607812/pexels-photo-607812.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     resourceLinks: [
@@ -83,10 +119,11 @@ const projects: Project[] = [
     difficulty: 'hard',
     estimatedHours: 40,
     requiredSkills: [
-      getSkillById('1')!, // React
-      getSkillById('2')!, // TypeScript
-      getSkillById('8')!, // Project Management
-      getSkillById('9')!, // Node.js
+      getSkillById('1')!,   // React
+      getSkillById('2')!,   // TypeScript
+      getSkillById('4')!,   // Node.js
+      getSkillById('28')!,  // Project Management
+      getSkillById('6')!,   // Software Architecture
     ],
     imageUrl: 'https://images.pexels.com/photos/7148384/pexels-photo-7148384.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     resourceLinks: [
@@ -101,14 +138,174 @@ const projects: Project[] = [
     difficulty: 'medium',
     estimatedHours: 20,
     requiredSkills: [
-      getSkillById('11')!, // SQL
-      getSkillById('5')!, // Data Analysis
-      getSkillById('12')!, // Cloud Computing
+      getSkillById('17')!,  // SQL
+      getSkillById('19')!,  // Database Management
+      getSkillById('10')!,  // Cloud Computing
     ],
     imageUrl: 'https://images.pexels.com/photos/4968633/pexels-photo-4968633.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     resourceLinks: [
       { title: 'Database Schema Design Best Practices', url: 'https://www.sqlshack.com/database-design-best-practices/' },
       { title: 'Entity-Relationship Diagram Tutorial', url: 'https://www.lucidchart.com/pages/er-diagrams' },
+    ],
+  },
+  {
+    id: '7',
+    title: 'AI-Powered Resume Reviewer',
+    description: 'Build a tool that analyzes resumes using AI, providing feedback and suggestions for improvements.',
+    difficulty: 'medium',
+    estimatedHours: 25,
+    requiredSkills: [
+      getSkillById('2')!,   // TypeScript
+      getSkillById('9')!,   // Zod Validation
+      getSkillById('23')!,  // (Machine Learning) – Optional for scoring
+      getSkillById('25')!,  // NLP
+    ],
+    imageUrl: 'https://images.pexels.com/photos/3182762/pexels-photo-3182762.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    resourceLinks: [
+      { title: 'Building Resume Scoring Models with AI', url: 'https://towardsdatascience.com/building-ai-models-to-score-resumes-123456' },
+      { title: 'Natural Language Processing for Resume Analysis', url: 'https://www.analyticsvidhya.com/blog/2021/07/nlp-techniques-for-resume-screening/' },
+    ],
+  },
+  {
+    id: '8',
+    title: 'Game Inventory System',
+    description: 'Develop a specialized inventory tracker for game development, optimizing file handling and storage management.',
+    difficulty: 'medium',
+    estimatedHours: 30,
+    requiredSkills: [
+      getSkillById('16')!,  // Data Analysis
+      getSkillById('10')!,  // Cloud Computing
+      getSkillById('20')!,  // Data Visualization
+      getSkillById('22')!,  // (Embedded Systems) – Optional for performance
+    ],
+    imageUrl: 'https://images.pexels.com/photos/159407/gaming-console-video-game-gamer-159407.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    resourceLinks: [
+      { title: 'Optimizing Inventory Systems in Game Development', url: 'https://www.gamasutra.com/blogs/Inventory-Systems-Best-Practices' },
+      { title: 'File Handling Techniques for Game Development', url: 'https://www.redblobgames.com/articles/data-storage/' },
+    ],
+  },
+  {
+    id: '9',
+    title: 'API-First Application',
+    description: 'Develop a backend-focused application with an API-first approach, ensuring scalable, high-performance service design.',
+    difficulty: 'medium',
+    estimatedHours: 35,
+    requiredSkills: [
+      getSkillById('5')!,   // API Design (core)
+      getSkillById('4')!,   // Node.js (backend)
+      getSkillById('6')!,   // Software Architecture
+      getSkillById('15')!,  // API Security
+    ],
+    imageUrl: 'https://images.pexels.com/photos/270404/pexels-photo-270404.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    resourceLinks: [
+      { title: 'API-First Development: Why It Matters', url: 'https://blog.postman.com/api-first-development/' },
+      { title: 'Building Scalable Backend Systems', url: 'https://www.infoq.com/articles/scalable-backend-architecture/' },
+    ],
+  },
+  {
+    id: '10',
+    title: 'Data-Driven Investment Dashboard',
+    description: 'Develop a financial dashboard integrating real-time stock data APIs for investment analysis and trend forecasting.',
+    difficulty: 'medium',
+    estimatedHours: 40,
+    requiredSkills: [
+      getSkillById('16')!,  // Data Analysis
+      getSkillById('17')!,  // SQL
+      getSkillById('20')!,  // Data Visualization
+      getSkillById('10')!,  // Cloud Computing
+    ],
+    imageUrl: 'https://images.pexels.com/photos/6693661/pexels-photo-6693661.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    resourceLinks: [
+      { title: 'Best Financial Data APIs in 2025', url: 'https://www.10xsheets.com/blog/financial-data-apis/' },
+      { title: 'Stock Market API by Polygon.io', url: 'https://polygon.io/' },
+    ],
+  },
+  {
+    id: '11',
+    title: 'IoT Smart Home Dashboard',
+    description: 'Develop a React-based dashboard that connects to IoT sensors and smart home controls for real-time monitoring and automation.',
+    difficulty: 'medium',
+    estimatedHours: 45,
+    requiredSkills: [
+      getSkillById('1')!,   // React (dashboard UI)
+      getSkillById('22')!,  // Embedded Systems (IoT)
+      getSkillById('8')!,   // API Integration (device APIs)
+      getSkillById('14')!,  // Cybersecurity (critical for IoT)
+    ],
+    imageUrl: 'https://images.pexels.com/photos/4792718/pexels-photo-4792718.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    resourceLinks: [
+      { title: 'Building IoT Dashboards with React', url: 'https://codesandbox.io/s/react-smart-home-dashboard-z9tih' },
+      { title: 'Smart Home Automation with IoT', url: 'https://github.com/jbittcodes/smart-home-automation-dashboard' },
+    ],
+  },
+    {
+    id: '12',
+    title: 'GraphQL-powered API Gateway',
+    description: 'Develop a high-performance API gateway using GraphQL and TypeScript to streamline data access across multiple microservices.',
+    difficulty: 'medium',
+    estimatedHours: 20,
+    requiredSkills: [
+      getSkillById('3')!,   // GraphQL
+      getSkillById('2')!,   // TypeScript
+      getSkillById('6')!,   // Software Architecture
+      getSkillById('15')!,  // API Security
+    ],
+    imageUrl: 'https://images.pexels.com/photos/270404/pexels-photo-270404.jpeg',
+    resourceLinks: [
+      { title: 'GraphQL API Design Guide', url: 'https://graphql.org/learn/' },
+      { title: 'Microservices Architecture', url: 'https://martinfowler.com/articles/microservices.html' },
+    ],
+  },
+  {
+    id: '13',
+    title: 'Cloud-based CI/CD Pipeline',
+    description: 'Implement a scalable CI/CD pipeline using AWS, Kubernetes, and GitHub Actions to automate deployment workflows.',
+    difficulty: 'hard',
+    estimatedHours: 30,
+    requiredSkills: [
+      getSkillById('10')!,  // Cloud Computing
+      getSkillById('11')!,  // DevOps & CI/CD
+      getSkillById('12')!,  // Testing & Validation
+    ],
+    imageUrl: 'https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg',
+    resourceLinks: [
+      { title: 'Kubernetes CI/CD Best Practices', url: 'https://kubernetes.io/docs/concepts/cluster-administration/cicd/' },
+      { title: 'AWS DevOps Automation', url: 'https://aws.amazon.com/devops/' },
+    ],
+  },
+  {
+    id: '14',
+    title: 'AI-powered Code Review Assistant',
+    description: 'Develop a code review assistant using machine learning to automatically detect common bugs and security vulnerabilities.',
+    difficulty: 'hard',
+    estimatedHours: 35,
+    requiredSkills: [
+      getSkillById('21')!,  // Python
+      getSkillById('23')!,  // Machine Learning
+      getSkillById('14')!,  // Cybersecurity
+      getSkillById('12')!,  // Testing & Validation
+    ],
+    imageUrl: 'https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg',
+    resourceLinks: [
+      { title: 'ML-Based Code Analysis', url: 'https://towardsdatascience.com/ai-code-analysis-101-a1a8bb9e781b' },
+      { title: 'Secure Code Review Techniques', url: 'https://owasp.org/www-community/activities/secure-code-review' },
+    ],
+  },
+  {
+    id: '15',
+    title: 'High-Performance SQL Query Optimizer',
+    description: 'Design a SQL query optimization tool to improve database efficiency and response times.',
+    difficulty: 'medium',
+    estimatedHours: 25,
+    requiredSkills: [
+      getSkillById('17')!,  // SQL
+      getSkillById('7')!,   // System Optimization
+      getSkillById('19')!,  // Database Management
+    ],
+    imageUrl: 'https://images.pexels.com/photos/1591066/pexels-photo-1591066.jpeg',
+    resourceLinks: [
+      { title: 'SQL Query Optimization Guide', url: 'https://use-the-index-luke.com/' },
+      { title: 'Database Performance Tuning', url: 'https://www.oracle.com/database/technologies/performance-tuning.html' },
     ],
   },
 ];
