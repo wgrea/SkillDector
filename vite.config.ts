@@ -1,6 +1,7 @@
 // vite.config.ts
 
 // npm run dev
+// npm run build
 
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
