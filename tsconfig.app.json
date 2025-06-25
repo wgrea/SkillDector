@@ -34,7 +34,7 @@
     
     /* Type declarations */
     "typeRoots": ["./node_modules/@types", "./src/types"],
-    "types": ["vite/client", "vitest", "node"],
+    "types": ["vite/client", "node"],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
 
