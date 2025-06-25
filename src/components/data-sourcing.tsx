@@ -1,20 +1,14 @@
 // src/components/data-sourcing.tsx
 import React from 'react';
-// For Skeleton (named export)
 import { Skeleton } from '@/components/ui/skeleton';
-
-// For Badge (named export)
 import { Badge } from '@/components/ui/badge';
-
-// For Button (named export)
 import { Button } from '@/components/ui/button';
-
-// For Card (named export with multiple components)
 import { 
   Card,
 } from '@/components/ui/card';
 import { useAnalytics } from '../hooks/useAnalytics';
 import { ExternalLink, CheckCircle, RefreshCw } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 // Types for our data
 type DataPartner = {
@@ -96,6 +90,8 @@ const DataSourcing: React.FC = () => {
     setTimeout(() => setIsLoading(false), 1000);
   };
 
+  const navigate = useNavigate();
+
   const renderQualityStars = (quality: number) => {
     return (
       <div className="flex items-center">
@@ -115,12 +111,18 @@ const DataSourcing: React.FC = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
+      {/* Top Header Row with Back and Refresh */}
       <div className="flex justify-between items-center mb-8">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Data Sourcing & Methodology</h1>
-          <p className="text-gray-600 mt-2">
-            Transparent, reliable skill data updated regularly from trusted sources
-          </p>
+        <div className="flex items-center gap-3">
+          <Button variant="ghost" size="sm" onClick={() => navigate(-1)}>
+            ← Back
+          </Button>
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">Data Sourcing & Methodology</h1>
+            <p className="text-gray-600 mt-2">
+              Transparent, reliable skill data updated regularly from trusted sources
+            </p>
+          </div>
         </div>
         <Button variant="outline" onClick={refreshData} disabled={isLoading}>
           {isLoading ? (
