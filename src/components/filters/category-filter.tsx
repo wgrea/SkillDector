@@ -28,6 +28,7 @@ export function CategoryFilter({
     marketing: '📢',
     business: '💼',
     ai: '🤖',
+    gamedev: '🎮' 
 };
 
   

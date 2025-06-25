@@ -1,3 +1,4 @@
+// src/components/ui/empty-state.tsx
 import { FolderOpen } from 'lucide-react';
 
 interface EmptyStateProps {

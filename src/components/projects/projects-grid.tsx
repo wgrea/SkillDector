@@ -1,3 +1,4 @@
+// src/components/projects/projects-grid.tsx
 import { useState } from 'react';
 import { Project } from '@/types';
 import { ProjectCard } from '@/components/projects/project-card';

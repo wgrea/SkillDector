@@ -11,12 +11,7 @@ export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { logout } = useAuth(); // Make sure your useAuth hook provides this
 
-  const menuItems = [
-    { label: 'Skills', href: '#skills' },
-    { label: 'Projects', href: '#projects' },
-    { label: 'Resources', href: '#resources' },
-    { label: 'About', href: '#about' },
-  ];
+  const menuItems: { label: string; href: string }[] = [];
 
   const handleLogout = () => {
     logout();
@@ -53,17 +48,26 @@ export function Header() {
             </Link>
           </Button>
 
-          <Button variant="ghost" size="icon" className="hidden md:flex">
-            <Bookmark className="h-5 w-5" />
-            <span className="sr-only">Bookmarks</span>
-          </Button>
+          <Link to="/bookmarks">
+            <Button variant="ghost" size="icon" className="hidden md:flex">
+              <Bookmark className="h-5 w-5" />
+              <span className="sr-only">Bookmarks</span>
+            </Button>
+          </Link>
           
           <ThemeToggle />
           
-          <Button variant="outline" size="sm" className="hidden md:flex items-center gap-2">
-            <Github className="h-4 w-4" />
-            <span>GitHub</span>
-          </Button>
+          <a 
+            href="https://github.com/wgrea/SkillsHub" 
+            target="_blank" 
+            rel="noopener noreferrer"
+          >
+            <Button variant="outline" size="sm" className="hidden md:flex items-center gap-2">
+              <Github className="h-4 w-4" />
+              <span>GitHub</span>
+            </Button>
+          </a>
+
 
           {/* Logout Button - Desktop */}
           <Button 
@@ -128,9 +132,11 @@ export function Header() {
                     </Link>
                   </Button>
 
-                  <Button variant="outline" className="flex items-center justify-center gap-2 w-full">
-                    <Bookmark className="h-4 w-4" />
-                    <span>Bookmarks</span>
+                  <Button asChild variant="outline" className="flex items-center justify-center gap-2 w-full" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Link to="/bookmarks">
+                      <Bookmark className="h-4 w-4" />
+                      <span>Bookmarks</span>
+                    </Link>
                   </Button>
                   
                   <Button variant="outline" className="flex items-center justify-center gap-2 w-full">

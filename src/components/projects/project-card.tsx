@@ -1,5 +1,5 @@
 // src/components/projects/project-card.tsx
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronDown, ChevronUp, Clock, Bookmark, ExternalLink } from 'lucide-react';
 import { Project } from '@/types';
@@ -10,6 +10,7 @@ import { ProjectDifficultyBadge } from '@/components/projects/project-difficulty
 import { cn } from '@/lib/utils';
 import { useSession } from '@/hooks/use-session';
 import { AnalyticsEvents } from '@/lib/analytics-events';
+import { useBookmarks } from '@/hooks/use-bookmarks';
 import { useDebounce } from '@/hooks/use-debounce'; // Make sure this exists
 
 interface ProjectCardProps {
@@ -19,7 +20,8 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ project, isExpanded, onToggleExpand }: ProjectCardProps) {
-  const [isBookmarked, setIsBookmarked] = useState(false);
+  const { isProjectBookmarked, toggleProjectBookmark } = useBookmarks();
+  const isBookmarked = isProjectBookmarked(project.id);
   const { sessionId } = useSession();
   
   // Enhanced base properties with proper typing
@@ -75,18 +77,18 @@ export function ProjectCard({ project, isExpanded, onToggleExpand }: ProjectCard
   );
 
   // Bookmark handler with proper typing
-  const toggleBookmark = useCallback((e: React.MouseEvent) => {
+  const handleBookmarkToggle = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
-    const newState = !isBookmarked;
     
-    trackProjectEvent('interaction', {
-      interaction_type: newState ? 'save' : 'unsave',
-      element_id: 'project-bookmark',
-      bookmark_state: newState
-    });
+    toggleProjectBookmark(project.id);
 
-    setIsBookmarked(newState);
-  }, [isBookmarked, trackProjectEvent]);
+    trackProjectEvent('interaction', {
+      interaction_type: isBookmarked ? 'unsave' : 'save',
+      element_id: 'project-bookmark',
+      bookmark_state: !isBookmarked
+    });
+  }, [isBookmarked, toggleProjectBookmark, project.id, trackProjectEvent]);
+
 
   const handleExpandToggle = useCallback(() => {
     trackProjectEvent('interaction', {
@@ -151,18 +153,18 @@ export function ProjectCard({ project, isExpanded, onToggleExpand }: ProjectCard
       <CardHeader className="pb-3 flex-grow">
         <div className="flex justify-between items-start">
           <h3 className="font-semibold text-lg">{project.title}</h3>
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            className="h-8 w-8" 
-            onClick={toggleBookmark}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8"
+            onClick={handleBookmarkToggle}
             aria-label={isBookmarked ? "Remove bookmark" : "Add bookmark"}
           >
-            <Bookmark 
+            <Bookmark
               className={cn(
-                "h-4 w-4", 
+                "h-4 w-4",
                 isBookmarked ? "fill-primary text-primary" : "text-muted-foreground"
-              )} 
+              )}
             />
           </Button>
         </div>
@@ -239,8 +241,22 @@ export function ProjectCard({ project, isExpanded, onToggleExpand }: ProjectCard
                     </a>
                   ))}
                 </div>
-              </div>
-            </div>
+              </div> {/* ← Close Helpful Resources section first */}
+
+              {project.promptTemplates && (
+                <div>
+                  <h4 className="text-sm font-medium mb-2">Prompt Templates</h4>
+                  <div className="space-y-2">
+                    <pre className="text-xs bg-muted p-2 rounded whitespace-pre-wrap">
+                      {project.promptTemplates.proposal}
+                    </pre>
+                    <pre className="text-xs bg-muted p-2 rounded whitespace-pre-wrap">
+                      {project.promptTemplates.code}
+                    </pre>
+                  </div>
+                </div>
+              )}
+          </div>
           )}
         </motion.div>
       </CardContent>

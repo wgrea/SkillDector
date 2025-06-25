@@ -1,6 +1,7 @@
 // src/components/layout/footer.tsx
 
-import { Lightbulb, Github, Twitter, Linkedin, Mail } from 'lucide-react';
+import { Link } from "react-router-dom";
+import { Lightbulb, Github, Linkedin, Mail } from 'lucide-react';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -9,28 +10,25 @@ export function Footer() {
     {
       title: 'Platform',
       links: [
-        { label: 'Skills Library', href: '#' },
-        { label: 'Project Ideas', href: '#' },
-        { label: 'Learning Paths', href: '#' },
-        { label: 'Roadmaps', href: '#' },
+        // { label: 'Skills Library', href: '#' }, Already exists prettymuch
+        // { label: 'Project Ideas', href: '#' },  Already exists prettymuch
+        // { label: 'Learning Paths', href: '#' }, To-be added in the future
+        // { label: 'Roadmaps', href: '#' }, To-be added in the future
       ],
     },
     {
       title: 'Resources',
       links: [
-        { label: 'Tutorials', href: '#' },
-        { label: 'Documentation', href: '#' },
-        { label: 'Community', href: '#' },
-        { label: 'Blog', href: '#' },
+        // { label: 'Tutorials', href: '#' }, To-be added in the future
+        // { label: 'Documentation', href: '#' }, To-be added in the future
+        // { label: 'Community', href: '#' }, To-be added in the future
+        // { label: 'Blog', href: '#' }, To-be added in the future
       ],
     },
     {
       title: 'Company',
       links: [
-        { label: 'About Us', href: '#' },
-        { label: 'Careers', href: '#' },
-        { label: 'Contact', href: '#' },
-        { label: 'Terms & Privacy', href: '#' },
+        { label: 'Terms & Privacy', to: '/terms' },
       ],
     },
   ];
@@ -47,19 +45,29 @@ export function Footer() {
             Discover trending skills, explore exciting project ideas, and accelerate your learning journey with our comprehensive platform.
           </p>
           <div className="flex gap-4 mt-2">
-            <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-              <Github className="h-5 w-5" />
-              <span className="sr-only">GitHub</span>
-            </a>
-            <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-              <Twitter className="h-5 w-5" />
-              <span className="sr-only">Twitter</span>
-            </a>
-            <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+            <a 
+              href="https://www.linkedin.com/in/will-greaney-57a7a2276/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-primary transition-colors"
+            >
               <Linkedin className="h-5 w-5" />
               <span className="sr-only">LinkedIn</span>
             </a>
-            <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+
+            <a 
+              href="https://github.com/wgrea" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-primary transition-colors"
+            >
+              <Github className="h-5 w-5" />
+              <span className="sr-only">GitHub</span>
+            </a>
+            <a 
+              href="mailto:wgreaney0405@gmail.com" 
+              className="text-muted-foreground hover:text-primary transition-colors"
+            >
               <Mail className="h-5 w-5" />
               <span className="sr-only">Email</span>
             </a>
@@ -71,13 +79,9 @@ export function Footer() {
             <h3 className="text-sm font-semibold">{section.title}</h3>
             <nav className="flex flex-col gap-2">
               {section.links.map((link) => (
-                <a 
-                  key={link.label} 
-                  href={link.href} 
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                >
+                <Link key={link.to} to={link.to} className="text-muted hover:underline">
                   {link.label}
-                </a>
+                </Link>
               ))}
             </nav>
           </div>

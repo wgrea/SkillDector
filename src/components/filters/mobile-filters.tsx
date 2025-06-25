@@ -20,7 +20,6 @@ export function MobileFilters({
   selectedCategory, 
   onSelectCategory 
 }: MobileFiltersProps) {
-  // src/components/filters/mobile-filters.tsx
   const categoryIcons: Record<SkillCategory, string> = {
     security: '🔒',
     design: '🎨',
@@ -33,7 +32,8 @@ export function MobileFilters({
     cloud: '☁️',
     devops: '🔄',
     scripting: '📜',
-    embedded: '🔌'
+    embedded: '🔌',
+    gamedev: '🎮'
   };
   
   const handleChange = (value: string) => {
