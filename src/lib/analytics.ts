@@ -25,14 +25,14 @@ const enrichEventData = (data: EventData): EventData => ({
   url: typeof window !== 'undefined' ? window.location.pathname : '',
   user_agent: typeof navigator !== 'undefined' ? navigator.userAgent : '',
   session_id: getSessionId(),
-  version: import.meta.env.VITE_APP_VERSION  // Changed from process.env.APP_VERSION
+  version: import.meta.env['VITE_APP_VERSION']
 });
 
 export const track = async (event: string, data: EventData = {}): Promise<void> => {
   const enrichedData = enrichEventData(data);
 
   // Development logging
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env['NODE_ENV'] === 'development') {
     console.groupCollapsed(`%c[Analytics] ${event}`, 'color: #4CAF50;');
     console.log('Payload:', enrichedData);
     console.groupEnd();
@@ -136,7 +136,7 @@ const retryFailedEvents = async (): Promise<void> => {
 export const trackEvent = async (event: string, data: EventData = {}): Promise<void> => {
   const enrichedData = enrichEventData(data);
 
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env['NODE_ENV'] === 'development') {
     console.groupCollapsed(`%c[Analytics] ${event}`, 'color: #4CAF50;');
     console.log('Payload:', enrichedData);
     console.groupEnd();
