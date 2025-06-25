@@ -1,6 +1,4 @@
 // src/components/skills/skill-card.tsx
-// Revise with code from the non-working version
-
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, ChevronUp, Bookmark, TrendingUp, TrendingDown, ExternalLink, Award, DollarSign, Briefcase } from 'lucide-react';
@@ -17,6 +15,8 @@ interface SkillCardProps {
   skill: Skill;
   isExpanded: boolean;
   onToggleExpand: () => void;
+  isSelected?: boolean;  // Add this line
+  variant?: 'default' | 'compact';  // Add this line if not already present
 }
 
 export function SkillCard({ skill, isExpanded, onToggleExpand }: SkillCardProps) {
