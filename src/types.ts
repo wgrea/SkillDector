@@ -15,7 +15,8 @@ export type SkillCategory =
   | 'cloud' 
   | 'devops'
   | 'scripting'
-  | 'embedded';
+  | 'embedded'
+  | 'gamedev'; 
 
 export type SkillLevel = 'beginner' | 'intermediate' | 'advanced';
 export type ProjectDifficulty = 'easy' | 'medium' | 'hard' | 'expert';
@@ -113,6 +114,7 @@ export interface Project {
   }[];
   learningPath?: LearningPath;
   academicConnections?: AcademicConnections;
+  promptTemplates?: PromptTemplates;
 }
 
 export interface LearningPath {
@@ -128,6 +130,23 @@ export interface UserProgress {
   lastUpdated: string;
   linkedInVerified: boolean;
   completedProjects: string[];
+}
+
+// Add BookmarkState from skills.ts
+export interface BookmarkState {
+  skills: Set<string>;
+  projects: Set<string>;
+}
+
+export interface PromptTemplates {
+  proposal: string;
+  code?: string; // Make optional since not all projects need code prompts
+  alternative?: string; // Optional alternative approach
+  pricing?: { // Structured pricing information
+    range: `${number}-${number}`;
+    currency: Currency;
+    notes?: string;
+  };
 }
 
 // ======================

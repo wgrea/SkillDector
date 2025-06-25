@@ -1484,7 +1484,141 @@ const skills: Skill[] = [
       trendTag: 'stable'
     }
   },
+   // Game Development Skills
+  {
+    id: '29',
+    name: 'Unity',
+    description: 'A cross-platform game engine used to create video games for PC, consoles, mobile devices, and websites.',
+    category: 'gamedev',
+    popularityScore: 89,
+    growthRate: 13,
+    icon: '🎮',
+    color: '#000000',
+    level: 'intermediate',
+    relatedSkills: ['C#', 'Game Design', '3D Modeling', 'Animation'],
+    source: {
+      name: 'Unity Learn',
+      url: 'https://learn.unity.com',
+      description: 'Official Unity learning platform',
+      lastUpdated: '2024-01-16'
+    },
+    demandScore: 84,
+    salaryRange: {
+      min: 70000,
+      max: 140000,
+      currency: 'USD'
+    },
+    jobPostings: 4500,
+    linkedInEndorsements: 180000,
+    certifications: [
+      {
+        name: 'Unity Certified Developer',
+        provider: 'Unity Technologies',
+        url: 'https://unity.com/products/unity-certifications'
+      }
+    ]
+  },
+  {
+    id: '30',
+    name: 'Unreal Engine',
+    description: 'A powerful game engine developed by Epic Games, known for creating high-quality 3D games and experiences.',
+    category: 'gamedev',
+    popularityScore: 86,
+    growthRate: 17,
+    icon: '🚀',
+    color: '#0E1128',
+    level: 'advanced',
+    relatedSkills: ['C++', 'Blueprint', '3D Graphics', 'VR/AR'],
+    source: {
+      name: 'Unreal Engine Documentation',
+      url: 'https://docs.unrealengine.com',
+      description: 'Official Unreal Engine documentation',
+      lastUpdated: '2024-01-14'
+    },
+    demandScore: 82,
+    salaryRange: {
+      min: 75000,
+      max: 160000,
+      currency: 'USD'
+    },
+    jobPostings: 3200,
+    linkedInEndorsements: 120000,
+    certifications: [
+      {
+        name: 'Unreal Engine Certified Developer',
+        provider: 'Epic Games',
+        url: 'https://www.unrealengine.com/en-US/onlinelearning-courses'
+      }
+    ]
+  },
+  {
+    id: '31',
+    name: 'Game Design',
+    description: 'The art of applying design and aesthetics to create a game for entertainment or educational purposes.',
+    category: 'gamedev',
+    popularityScore: 78,
+    growthRate: 11,
+    icon: '🎯',
+    color: '#FF6B35',
+    level: 'intermediate',
+    relatedSkills: ['Level Design', 'Storytelling', 'User Experience', 'Psychology'],
+    source: {
+      name: 'Game Design Workshop',
+      url: 'https://www.gamedesignworkshop.com',
+      description: 'Comprehensive game design resources',
+      lastUpdated: '2024-01-12'
+    },
+    demandScore: 76,
+    salaryRange: {
+      min: 60000,
+      max: 130000,
+      currency: 'USD'
+    },
+    jobPostings: 2800,
+    linkedInEndorsements: 95000,
+    certifications: [
+      {
+        name: 'Game Design Certificate',
+        provider: 'CGMA',
+        url: 'https://www.cgmasteracademy.com/courses/game-design'
+      }
+    ]
+  },
+  {
+    id: '32',
+    name: 'C# for Games',
+    description: 'A versatile programming language widely used in game development, especially with Unity engine.',
+    category: 'gamedev',
+    popularityScore: 85,
+    growthRate: 9,
+    icon: '🔷',
+    color: '#239120',
+    level: 'intermediate',
+    relatedSkills: ['Unity', '.NET', 'Object-Oriented Programming', 'Debugging'],
+    source: {
+      name: 'Microsoft C# Documentation',
+      url: 'https://docs.microsoft.com/en-us/dotnet/csharp/',
+      description: 'Official C# documentation from Microsoft',
+      lastUpdated: '2024-01-15'
+    },
+    demandScore: 83,
+    salaryRange: {
+      min: 72000,
+      max: 145000,
+      currency: 'USD'
+    },
+    jobPostings: 5200,
+    linkedInEndorsements: 220000,
+    certifications: [
+      {
+        name: 'Microsoft Certified: C# Developer',
+        provider: 'Microsoft',
+        url: 'https://docs.microsoft.com/en-us/learn/certifications/'
+      }
+    ]
+  }
 ];
+export { skills }
 
 export function getSkillById(id: string): Skill | undefined {
   return skills.find(skill => skill.id === id);
@@ -1571,4 +1705,35 @@ export function getAllCategories(): SkillCategory[] {
   const categories = new Set<SkillCategory>();
   skills.forEach(skill => categories.add(skill.category));
   return Array.from(categories);
+}
+
+export function searchSkills(query: string): Skill[] {
+  if (!query.trim()) return [];
+  
+  const lowercaseQuery = query.toLowerCase();
+  return skills.filter(skill => 
+    skill.name.toLowerCase().includes(lowercaseQuery) ||
+    skill.description.toLowerCase().includes(lowercaseQuery) ||
+    skill.relatedSkills.some(related => related.toLowerCase().includes(lowercaseQuery))
+  );
+}
+
+export function getSkillSuggestions(query: string, limit: number = 5): string[] {
+  if (!query.trim()) return [];
+  
+  const lowercaseQuery = query.toLowerCase();
+  const suggestions = new Set<string>();
+  
+  skills.forEach(skill => {
+    if (skill.name.toLowerCase().includes(lowercaseQuery)) {
+      suggestions.add(skill.name);
+    }
+    skill.relatedSkills.forEach(related => {
+      if (related.toLowerCase().includes(lowercaseQuery)) {
+        suggestions.add(related);
+      }
+    });
+  });
+  
+  return Array.from(suggestions).slice(0, limit);
 }

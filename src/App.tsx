@@ -18,6 +18,8 @@ import AuthForm from "./components/auth/AuthForm";
 import { AuthProvider } from "@/components/auth/AuthContext";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import DataSourcing from "@/components/data-sourcing";
+import BookmarksPage from '@/components/routes/bookmarks-page';
+import TermsPage from "@/components/routes/TermsPage";
 
 function AppContent() {
   const [selectedCategory, setSelectedCategory] = useState<SkillCategory | "all">("all");
@@ -30,13 +32,18 @@ function AppContent() {
 
   const filteredSkills = allSkills.filter((skill) => {
     const matchesCategory = selectedCategory === "all" || skill.category === selectedCategory;
-    const matchesSearch = searchQuery === "" || skill.name.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch = searchQuery === "" || 
+      skill.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      skill.description.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
 
   const filteredProjects = allProjects.filter((project) => {
-    const hasSkillInCategory = selectedCategory === "all" || project.requiredSkills.some((skill) => skill.category === selectedCategory);
-    const matchesSearch = searchQuery === "" || project.title.toLowerCase().includes(searchQuery.toLowerCase());
+    const hasSkillInCategory = selectedCategory === "all" || 
+      project.requiredSkills.some((skill) => skill.category === selectedCategory);
+    const matchesSearch = searchQuery === "" || 
+      project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      project.description.toLowerCase().includes(searchQuery.toLowerCase());
     return hasSkillInCategory && matchesSearch;
   });
 
@@ -44,7 +51,7 @@ function AppContent() {
     <MainLayout>
       <div className="container mx-auto px-4 py-8">
         <header className="mb-8">
-          <h1 className="text-3xl font-bold">Trending Skills Hub</h1>
+          <h1 className="text-3xl font-bold tracking-tight mb-2">Trending Skills Hub</h1>
           <p className="text-muted-foreground">
             Discover in-demand skills and project ideas to enhance your portfolio
           </p>
@@ -68,16 +75,16 @@ function AppContent() {
             )}
           </div>
 
-          <Tabs defaultValue="skills">
+          <Tabs defaultValue="skills" className="w-full">
             <TabsList className="mb-6">
               <TabsTrigger value="skills">Skills</TabsTrigger>
               <TabsTrigger value="projects">Project Ideas</TabsTrigger>
             </TabsList>
 
-            <TabsContent value="skills">
+            <TabsContent value="skills" className="space-y-4">
               <SkillsGrid skills={filteredSkills} />
             </TabsContent>
-            <TabsContent value="projects">
+            <TabsContent value="projects" className="space-y-4">
               <ProjectsGrid projects={filteredProjects} />
             </TabsContent>
           </Tabs>
@@ -92,9 +99,9 @@ function App() {
     <AuthProvider>
       <ThemeProvider defaultTheme="light" storageKey="ui-theme">
         <Routes>
-          <Route path="/auth" element={<AuthForm />} /> {/* Updated */}
-          <Route path="/login" element={<Navigate to="/auth" replace />} /> {/* Redirect old login */}
-          <Route path="/signup" element={<Navigate to="/auth" replace />} /> {/* Redirect old signup */}
+          <Route path="/auth" element={<AuthForm />} />
+          <Route path="/login" element={<Navigate to="/auth" replace />} />
+          <Route path="/signup" element={<Navigate to="/auth" replace />} />
           <Route path="/data-sourcing" element={
             <ProtectedRoute>
               <DataSourcing />
@@ -105,6 +112,12 @@ function App() {
               <AppContent />
             </ProtectedRoute>
           } />
+          <Route path="/bookmarks" element={
+            <ProtectedRoute>
+              <BookmarksPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/terms" element={<TermsPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </ThemeProvider>
